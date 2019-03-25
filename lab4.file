@@ -1,0 +1,41 @@
+#!/bin/bash
+
+#1
+sudo apt-get install gcc make libncurses5-dev
+
+#2
+git clone https://github.com/fph/bastet
+sudo apt-get install gcc g++ make libncurses5-dev
+sudo apt install libboost-dev
+sudo apt install libboost-program-options-dev
+make
+
+#3
+apt list > task3.log
+
+#4
+apt-cache depends gcc > task4.log
+
+#5
+#download x86_64 .deb version of checkinstall
+sudo -i
+apt install dpkg-dev
+mkdir localrepo
+mv /home/osboxes/downloads/checkinstall_1.6.2-4ubuntu2_amd64.deb ~/localrepo/
+echo "deb [trusted=true] file:/root/localrepo ./" > /etc/apt/sources.list.d/localrepo.list
+dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
+apt update --allow-insecure-repositories
+apt install checkinstall
+
+#6
+cat /etc/apt/sources.list > task6.log
+
+#7
+mv /etc/apt/sources.list /etc/apt/sources.list.sobaka
+apt clean
+apt update --allow-insecure-repositories
+apt-cache pkgnames
+mv /etc/apt/sources.list.sobaka /etc/apt/sources.list
+
+#8
+apt install fortunes-ru
